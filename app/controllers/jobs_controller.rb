@@ -3,6 +3,11 @@ class JobsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :update, :edit, :destroy]
   def show
     @job = Job.find(params[:id])
+
+    if @job.is_hidden
+      flash[:warning] = "This Job already archieved"
+      redirect_to root_path
+    end
   end
 
   def index
@@ -44,6 +49,20 @@ class JobsController < ApplicationController
 
     redirect_to jobs_path
     flash[:alert] = "job deleted"
+  end
+
+  def publish
+    @job = Job.find(params[:id])
+    @job.is_hidden = false
+    @job.save
+    redirect_to :back
+  end
+
+  def hide
+    @job = Job.find(params[:id])
+    @job.is_hidden = true
+    @job.save
+    redirect_to :back
   end
 
   private
