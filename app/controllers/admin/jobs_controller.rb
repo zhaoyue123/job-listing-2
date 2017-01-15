@@ -46,11 +46,11 @@ class Admin::JobsController < ApplicationController
     flash[:alert] = "job deleted"
   end
 
-  
+
 
   private
 
   def job_params
-    params.require(:jobs).permit(:title, :description)
+    params.require(:jobs).permit(:title, :description, :wage_lower_bound, :wage_upper_bound, :contact_email)
   end
 end
